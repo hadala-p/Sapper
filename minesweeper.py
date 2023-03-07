@@ -41,38 +41,60 @@ def number_of_neighbouring_mines(n_mines, x, y, rows, columns):
     return neighboring_mines
 
 
-def reveal_fields(mines, board, points):
-    x = get_number(0, len(board) - 1, "Podaj x")
-    y = get_number(0, len(board[0]) - 1, "Podaj y")
-    points.add((y, x))
-    print_board(board, points)
-
+def reveal_fields(mines, board, points, x, y):
     # check if the revealed square contains a mine
-    if (y, x) in mines:
+    if (x, y) in points:
+        return
+    points.add((x, y))
+    if (x, y) in mines:
         return 1
     # check if all non-mine squares have been revealed
     if len(points) == (len(board) * len(board[0]) - len(mines)):
+        return 2
+    if board[x][y] == '0':
+        # Reveal adjacent fields.
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                # Checking if an adjacent square is on the board
+                if 0 <= x + i < len(board) and 0 <= y + j < len(board[0]):
+                    reveal_fields(mines, board, points, x + i, y + j)
+    else:
+        # Pole ma wartość różną od zera.
         return
-    # recursively reveal adjacent squares
-    return reveal_fields(mines, board, points)
 
 
 def print_board(board, points):
     rows = len(board)
     columns = len(board[0])
     # print column numbers
-    print("  ", end="")
+    print("   " + chr(9553), end="")
     for i in range(columns):
-        print(i, end=" ")
+        if i > 9:
+            print(f"{str(i)} {chr(9553)}", end="")
+        else:
+            print(f" {str(i)} {chr(9553)}", end="")
     print()
 
+    print(end="")
+    for i in range(columns+1):
+        print((chr(9552) * 3) + chr(9580), end="")
+    print()
     # print row numbers and contents of each square
     for i in range(rows):
-        print(i, end=" ")
+        if i > 9:
+            print(f"{str(i)} {chr(9553)}", end="")
+        else:
+            print(f" {str(i)} {chr(9553)}", end="")
         for j in range(columns):
             if (i, j) in points:
                 # if a square has been revealed, print its contents in yellow
-                print(Fore.YELLOW + board[i][j] + Style.RESET_ALL, end=" ")
+                if board[i][j] != '*':
+                    print(f"{Fore.YELLOW} {board[i][j]} {Style.RESET_ALL}{chr(9553)}", end="")
+                else:
+                    print(f"{Fore.RED} * {Style.RESET_ALL}{chr(9553)}", end="")
             else:
-                print(Fore.BLUE + 'X' + Style.RESET_ALL, end=" ")
+                print(f"{Fore.BLUE} X {Style.RESET_ALL}{chr(9553)}", end="")
+        print("\n", end="")
+        for z in range(columns+1):
+            print((chr(9552) * 3) + chr(9580), end="")
         print()

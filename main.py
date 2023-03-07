@@ -7,18 +7,28 @@ max_columns = 24
 
 
 def sapper():
-    n_rows = get_number(min_rows, max_rows, "Podaj liczbę wierszy")
-    n_columns = get_number(min_columns, max_columns, "Podaj liczbę kolumn")
+    n_rows = 12
+    n_columns = 12
+    # n_rows = get_number(min_rows, max_rows, "Podaj liczbę wierszy")
+    # n_columns = get_number(min_columns, max_columns, "Podaj liczbę kolumn")
     mine_ratio = int((n_rows * n_columns) * 0.17)
     mines = lay_mines(mine_ratio, n_rows, n_columns)
     board = create_board(mines, n_rows, n_columns)
-    # for i in range(n_rows):
+    # for i in range(n_rows):     # show board
     #     print(board[i])
     points = set()
-    if reveal_fields(mines, board, points) == 1:
-        print("Koniec gry, trafiono na bombe")
-        return
-    print("Wygrana, pozostaly tylko bomby!")
+    while True:
+        print_board(board, points)
+        x = get_number(0, len(board) - 1, "Podaj x: ")
+        y = get_number(0, len(board[0]) - 1, "Podaj y: ")
+        status = reveal_fields(mines, board, points, x, y)
+        if status == 1:
+            print_board(board, points)
+            print("Koniec gry, trafiono na bombe")
+            return
+        if status == 2:
+            print("Wygrana, pozostaly tylko bomby!")
+            return
 
 
 sapper()
