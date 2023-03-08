@@ -7,15 +7,11 @@ max_columns = 24
 
 
 def sapper():
-    n_rows = 12
-    n_columns = 12
-    # n_rows = get_number(min_rows, max_rows, "Podaj liczbę wierszy")
-    # n_columns = get_number(min_columns, max_columns, "Podaj liczbę kolumn")
+    n_rows = get_number(min_rows, max_rows, "Podaj liczbę wierszy")
+    n_columns = get_number(min_columns, max_columns, "Podaj liczbę kolumn")
     mine_ratio = int((n_rows * n_columns) * 0.17)
     mines = lay_mines(mine_ratio, n_rows, n_columns)
     board = create_board(mines, n_rows, n_columns)
-    # for i in range(n_rows):     # show board
-    #     print(board[i])
     points = set()
     while True:
         print_board(board, points)

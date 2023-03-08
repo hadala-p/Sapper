@@ -55,7 +55,7 @@ def reveal_fields(mines, board, points, x, y):
                 if 0 <= x + i < len(board) and 0 <= y + j < len(board[0]):
                     reveal_fields(mines, board, points, x + i, y + j)
     else:
-        # Pole ma wartość różną od zera.
+        # The field has a non-zero value
         return
 
 
