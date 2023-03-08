@@ -13,7 +13,6 @@ def sapper():
     # n_columns = get_number(min_columns, max_columns, "Podaj liczbę kolumn")
     mine_ratio = int((n_rows * n_columns) * 0.17)
     mines = lay_mines(mine_ratio, n_rows, n_columns)
-    print("miny:" + str((len(mines))))
     board = create_board(mines, n_rows, n_columns)
     # for i in range(n_rows):     # show board
     #     print(board[i])
