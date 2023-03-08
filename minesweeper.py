@@ -27,12 +27,12 @@ def create_board(mines, rows, columns, mine='*'):
             if (i, j) in mines:
                 row.append(mine)
             else:
-                row.append(str(number_of_neighbouring_mines(mines, i, j, rows, columns)))
+                row.append(str(number_of_neighbouring_mines(mines, i, j)))
         board.append(row)
     return board
 
 
-def number_of_neighbouring_mines(n_mines, x, y, rows, columns):
+def number_of_neighbouring_mines(n_mines, x, y):
     neighboring_mines = 0
     for i in range(-1, 2):
         for j in range(-1, 2):
@@ -46,11 +46,7 @@ def reveal_fields(mines, board, points, x, y):
     if (x, y) in points:
         return
     points.add((x, y))
-    if (x, y) in mines:
-        return 1
     # check if all non-mine squares have been revealed
-    if len(points) == (len(board) * len(board[0]) - len(mines)):
-        return 2
     if board[x][y] == '0':
         # Reveal adjacent fields.
         for i in range(-1, 2):
@@ -69,10 +65,9 @@ def print_board(board, points):
     # print column numbers
     print("   " + chr(9553), end="")
     for i in range(columns):
-        if i > 9:
-            print(f"{str(i)} {chr(9553)}", end="")
-        else:
-            print(f" {str(i)} {chr(9553)}", end="")
+        if i < 10:
+            print(f" ", end="")
+        print(f"{str(i)} {chr(9553)}", end="")
     print()
 
     print(end="")
@@ -81,10 +76,10 @@ def print_board(board, points):
     print()
     # print row numbers and contents of each square
     for i in range(rows):
-        if i > 9:
-            print(f"{str(i)} {chr(9553)}", end="")
-        else:
-            print(f" {str(i)} {chr(9553)}", end="")
+        if i < 10:
+            print(f" ", end="")
+        print(f"{str(i)} {chr(9553)}", end="")
+
         for j in range(columns):
             if (i, j) in points:
                 # if a square has been revealed, print its contents in yellow
